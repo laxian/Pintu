@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,24 +24,23 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 	public final class GameViewListener implements GamePintuListener {
 		@Override
 		public void timeChanged(int currentTime) {
-			mTime.setText(""+currentTime);
+			mTime.setText("" + currentTime);
 		}
 
 		@Override
 		public void nextLevel(int nextLevel) {
-			//剩余的时间就是分数，也就是越快分数越高
+			// 剩余的时间就是分数，也就是越快分数越高
 			int oldScore = Integer.valueOf(mScore.getText().toString());
 			int score = oldScore + mGameLayout.getTime();
-			mScore.setText(""+score);
+			mScore.setText("" + score);
 			new AlertDialog.Builder(MainActivity.this).setTitle("提示")
 					.setMessage("是否进行下一关")
 					.setPositiveButton("next level", new OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog,
-								int which) {
+						public void onClick(DialogInterface dialog, int which) {
 							mGameLayout.nextLevel();
-							mLevel.setText("lv"+mGameLayout.getLevel());
+							mLevel.setText("lv" + mGameLayout.getLevel());
 						}
 					}).show();
 		}
@@ -52,16 +52,15 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 					.setPositiveButton("restart", new OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog,
-								int which) {
-							//重新游戏
+						public void onClick(DialogInterface dialog, int which) {
+							// 重新游戏
 							mGameLayout.newGame(mGameLayout.getLevel());
 						}
 					}).setNegativeButton("quit", new OnClickListener() {
-						
+
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							//退出游戏
+							// 退出游戏
 							finish();
 						}
 					}).show();
@@ -75,9 +74,9 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 			int level = mGameLayout.getLevel();
 			int score = mGameLayout.getScore();
 			int time = mGameLayout.getTime();
-			mLevel.setText("lv"+level);
-			mScore.setText(""+score);
-			mTime.setText(""+time);
+			mLevel.setText("lv" + level);
+			mScore.setText("" + score);
+			mTime.setText("" + time);
 		}
 	}
 
@@ -92,9 +91,14 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
+		initView();
+
+	}
+
+	private void initView() {
 		setContentView(R.layout.activity_main);
-		
 
 		mGameLayout = (GamePintuLayout) findViewById(R.id.gly);
 		mTime = (TextView) findViewById(R.id.id_time);
@@ -104,39 +108,30 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 		mNew = (TextView) findViewById(R.id.id_new);
 		mPause = (TextView) findViewById(R.id.id_pause);
 		mNext = (TextView) findViewById(R.id.id_next);
-		
+
 		mNew.setOnTouchListener(this);
 		mPause.setOnTouchListener(this);
 		mNext.setOnTouchListener(this);
-		
 		mGameLayout.setGameListener(new GameViewListener());
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
 		mGameLayout.pause();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		mGameLayout.resume();
 	}
-	
-	@Override
-	public void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		//mGameLayout.start();
-	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		
-		//结束时保存游戏数据
+		// 结束时保存游戏数据
 		mGameLayout.saveGameStatus();
-		
 	}
 
 	@Override
@@ -152,7 +147,7 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 				mGameLayout.pause();
 				mPause.setText("开始");
 				Toast.makeText(this, "游戏开始计时", Toast.LENGTH_SHORT).show();
-			}else{
+			} else {
 				mGameLayout.resume();
 				mPause.setText("暂停");
 			}
@@ -164,6 +159,6 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 		default:
 			break;
 		}
-		return false;
+		return true;
 	}
 }

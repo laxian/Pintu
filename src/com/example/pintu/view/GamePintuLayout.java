@@ -70,11 +70,6 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 	private boolean isGameOver;
 
 	/**
-	 * 是否重新开始
-	 */
-	private boolean isNewGame;
-
-	/**
 	 * 游戏暂停标志
 	 */
 	private boolean isPause;
@@ -154,6 +149,9 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 	 */
 	private List<ImagePiece> mItemBitmaps;
 
+	/**
+	 * 放置切分后的ImageView元素，有序
+	 */
 	private List<ImagePiece> mItemBitmapsInit;
 
 	/**
@@ -235,7 +233,6 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 		if (column * column != mMatrix.size()) {
 			return false;
 		}
-		isNewGame = false;
 		return true;
 	}
 
@@ -384,11 +381,6 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 
 	}
 
-	/**判断是否新游戏还是继续上次游戏*/
-	public boolean isNewGame() {
-		return isNewGame;
-	}
-
 	/**判断倒计时开启*/
 	public boolean isTimeEnabled() {
 		return isTimeEnabled;
@@ -407,7 +399,6 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 		mTime = ConfigUtil.getTime(getContext());
 		mColumn += mLevel;
 		isFirstStart = true;
-		isNewGame = false;
 		if (mListener != null) {
 			mListener.updateData();
 		}
@@ -428,7 +419,6 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 	/**开始新游戏，从level级*/
 	public void newGame(int level) {
 		mLevel = level;
-		isNewGame = true;
 		isSuccess = false;
 		isGameOver = false;
 		mAnimLayout = null;
