@@ -454,6 +454,7 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 	public void onClick(View v) {
 		// 如果暂停中，停止响应
 		if (isPause) {
+			Toast.makeText(getContext(), "请点击开始按钮", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		// 如果正在动画，不响应
@@ -673,5 +674,28 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 
 		v1.setTag(newTag1);
 		v2.setTag(newTag2);
+	}
+	
+	/**查看原图*/
+	public void showSrcImg(){
+		if (mAnimLayout == null) {
+			mAnimLayout = new RelativeLayout(getContext());
+			addView(mAnimLayout);
+		}
+		ImageView iv = new ImageView(getContext());
+		iv.setImageBitmap(mBitmap);
+		
+		int w = getWidth();
+		int h = getHeight();
+		
+		LayoutParams lp = new LayoutParams(w,h);
+		iv.setLayoutParams(lp);
+		
+		mAnimLayout.addView(iv);
+	}
+	
+	/**隐藏原图*/
+	public void hideSrcImg(){
+		mAnimLayout.removeAllViews();
 	}
 }

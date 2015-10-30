@@ -7,10 +7,10 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.View.OnTouchListener;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +19,7 @@ import com.example.pintu.view.GamePintuLayout.GamePintuListener;
 
 @SuppressWarnings("deprecation")
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class MainActivity extends ActionBarActivity implements OnTouchListener {
+public class MainActivity extends ActionBarActivity implements android.view.View.OnClickListener {
 
 	public final class GameViewListener implements GamePintuListener {
 		@Override
@@ -85,16 +85,16 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 	private TextView mLevel;
 	private TextView mScore;
 
-	private TextView mNew;
-	private TextView mPause;
-	private TextView mNext;
+	private Button mNew;
+	private Button mPause;
+	private Button mNext;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
+		getSupportActionBar().hide();
 		initView();
-
 	}
 
 	private void initView() {
@@ -105,13 +105,13 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 		mLevel = (TextView) findViewById(R.id.id_level);
 		mScore = (TextView) findViewById(R.id.id_score);
 
-		mNew = (TextView) findViewById(R.id.id_new);
-		mPause = (TextView) findViewById(R.id.id_pause);
-		mNext = (TextView) findViewById(R.id.id_next);
+		mNew = (Button) findViewById(R.id.id_new);
+		mPause = (Button) findViewById(R.id.id_pause);
+		mNext = (Button) findViewById(R.id.id_srcimg);
 
-		mNew.setOnTouchListener(this);
-		mPause.setOnTouchListener(this);
-		mNext.setOnTouchListener(this);
+		mNew.setOnClickListener(this);
+		mPause.setOnClickListener(this);
+		mNext.setOnClickListener(this);
 		mGameLayout.setGameListener(new GameViewListener());
 	}
 
@@ -135,7 +135,7 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 	}
 
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
+	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.id_new:
 			mGameLayout.newGame(mGameLayout.getLevel());
@@ -146,19 +146,25 @@ public class MainActivity extends ActionBarActivity implements OnTouchListener {
 			if ("暂停".equals(txt)) {
 				mGameLayout.pause();
 				mPause.setText("开始");
-				Toast.makeText(this, "游戏开始计时", Toast.LENGTH_SHORT).show();
 			} else {
 				mGameLayout.resume();
+				Toast.makeText(this, "游戏开始计时", Toast.LENGTH_SHORT).show();
 				mPause.setText("暂停");
 			}
 			break;
-		case R.id.id_next:
-			Toast.makeText(this, "敬请期待", Toast.LENGTH_SHORT).show();
+		case R.id.id_srcimg:
+			if ("原图".equals(mNext.getText().toString())) {
+				mGameLayout.showSrcImg();
+				mNext.setText("隐藏");
+			}else{
+				mGameLayout.hideSrcImg();
+				mNext.setText("原图");
+			}
+			
 			break;
 
 		default:
 			break;
-		}
-		return true;
+		}		
 	}
 }
