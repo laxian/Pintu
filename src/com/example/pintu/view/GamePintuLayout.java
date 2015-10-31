@@ -188,7 +188,15 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 	 * 游戏分数
 	 */
 	private int mScore;
-	/** 第二个被点击图标 */
+	
+	/**
+	 * 最好成绩
+	 */
+	private int mHighest;
+	
+	/**
+	 *  第二个被点击图标
+	 */
 	private ImageView mSecond;
 	/**
 	 * 时间长度
@@ -249,7 +257,20 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 		}
 		isSuccess = true;
 		mHandler.sendEmptyMessage(NEXT_LEVEL);
-		Toast.makeText(getContext(), "You win!", Toast.LENGTH_SHORT).show();
+	}
+
+	/**
+	 * 一关完成，更新数据
+	 */
+	private void updateData() {
+		//剩余时间换成分数
+		mScore += mTime;
+		mLevel++;
+		mColumn = mLevel+3;
+		//超过最好分，更新最高分
+		if (mScore > mHighest) {
+			mHighest = mScore;
+		}
 	}
 
 	private void checkTimeEnable() {
@@ -397,6 +418,7 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 		mLevel = ConfigUtil.getLevel(getContext());
 		mScore = ConfigUtil.getScore(getContext());
 		mTime = ConfigUtil.getTime(getContext());
+		mHighest = ConfigUtil.getMaxScore(getContext());
 		mColumn += mLevel;
 		isFirstStart = true;
 		if (mListener != null) {
@@ -419,6 +441,10 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 	/**开始新游戏，从level级*/
 	public void newGame(int level) {
 		mLevel = level;
+		mColumn = mLevel+3;
+		if (mLevel == 0) {
+			mScore = 0;
+		}
 		isSuccess = false;
 		isGameOver = false;
 		mAnimLayout = null;
@@ -438,12 +464,10 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 
 	/**开始下一级别*/
 	public void nextLevel() {
-		++mLevel;
-		mScore = mTime;
+		updateData();
 		checkTimeEnable();
 		this.removeAllViews();
 		mAnimLayout = null;
-		mColumn++;
 		isSuccess = false;
 		initBitmap();
 		initItem();
@@ -454,8 +478,8 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 	public void onClick(View v) {
 		// 如果暂停中，停止响应
 		if (isPause) {
-			Toast.makeText(getContext(), "请点击开始按钮", Toast.LENGTH_SHORT).show();
-			return;
+			resume();
+			Toast.makeText(getContext(), "计时开始", Toast.LENGTH_SHORT).show();
 		}
 		// 如果正在动画，不响应
 		if (isAniming) {
@@ -696,6 +720,16 @@ public class GamePintuLayout extends RelativeLayout implements OnClickListener {
 	
 	/**隐藏原图*/
 	public void hideSrcImg(){
-		mAnimLayout.removeAllViews();
+		if (mAnimLayout != null) {
+			mAnimLayout.removeAllViews();
+		}
+	}
+
+	/**
+	 * 获得最高分
+	 * @return
+	 */
+	public int getHighest() {
+		return mHighest;
 	}
 }

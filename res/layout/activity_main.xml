@@ -16,44 +16,57 @@
         android:layout_below="@+id/score_panel" >
     </com.example.pintu.view.GamePintuLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/score_panel"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp" >
 
         <TextView
+            android:layout_marginRight="10dp"
             android:id="@+id/id_level"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
             android:background="@drawable/textbg"
             android:gravity="center"
             android:padding="4dp"
             android:text="lv0" />
 
         <TextView
-            android:id="@+id/id_score"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
+            android:layout_marginRight="10dp"
+            android:id="@+id/id_highest"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
             android:background="@drawable/textbg"
             android:gravity="center"
             android:padding="4dp"
-            android:text="0" />
+            android:text="最高:0" />
+
+        <TextView
+            android:layout_marginRight="10dp"
+            android:id="@+id/id_score"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/textbg"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="分数:0" />
 
         <TextView
             android:id="@+id/id_time"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
             android:background="@drawable/textbg"
             android:gravity="center"
             android:padding="4dp"
             android:text="120" />
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/control_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,37 +74,52 @@
         android:layout_margin="3dp" >
 
         <Button
-            android:id="@+id/id_new"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"
+            android:id="@+id/id_new_game"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btnbg"
+            android:background="@drawable/btn_bg_selector"
             android:gravity="center"
             android:padding="4dp"
-            android:text="new" />
+            android:text="新游戏" />
 
         <Button
-            android:id="@+id/id_pause"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:id="@+id/id_shuffle"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btnbg"
+            android:background="@drawable/btn_bg_selector"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="打乱" />
+
+        <Button
+            android:layout_margin="10dp"
+            android:id="@+id/id_pause"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_bg_selector"
             android:gravity="center"
             android:padding="4dp"
             android:text="开始" />
 
         <Button
+            android:layout_margin="10dp"
             android:id="@+id/id_srcimg"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btnbg"
+            android:background="@drawable/btn_bg_selector"
             android:gravity="center"
             android:padding="4dp"
             android:text="原图" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
